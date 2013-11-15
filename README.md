@@ -1,4 +1,4 @@
-akka-persistence-journal-casbah
+akka-persistence-mongo
 ===============================
 
-Akka-Persistence journal plugin for MongoDB based on Casbah
+Akka-Persistence plugins for MongoDB.
