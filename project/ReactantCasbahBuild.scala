@@ -30,17 +30,8 @@ object ReactantCasbahBuild extends Build {
       provided(akkaPersistence, casbah) ++
       test(scalatest))
 
-  lazy val snapshot = Project(id = "reactant-casbah-snapshot", base = file("reactant-casbah-snapshot"))
-    .settings(basicSettings: _*)
-    .settings(formatSettings: _*)
-    .settings(osgiSettings: _*)
-    .settings(testSettings: _*)
-    .settings(libraryDependencies ++=
-      provided(akkaPersistence, casbah) ++
-      test(scalatest))
-
   lazy val example = Project(id = "example", base = file("example"))
-    .dependsOn(journal, snapshot)
+    .dependsOn(journal)
     .settings(basicSettings: _*)
     .settings(formatSettings: _*)
     .settings(osgiSettings: _*)
