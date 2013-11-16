@@ -18,7 +18,7 @@ object ReactantCasbahBuild extends Build {
     testSettings
 
   lazy val reactantCasbah = Project(id = "reactant-casbah", base = file("."))
-    .aggregate(journal, snapshot, example)
+    .aggregate(journal, example)
     .settings(basicSettings: _*)
 
   lazy val journal = Project(id = "reactant-casbah-journal", base = file("reactant-casbah-journal"))
