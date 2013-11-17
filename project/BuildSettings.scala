@@ -9,7 +9,9 @@ import com.typesafe.sbt.SbtScalariform
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 import sbtassembly.Plugin.AssemblyKeys._
 import sbtassembly.Plugin._
-import com.typesafe.sbt.osgi.SbtOsgi.{ OsgiKeys, defaultOsgiSettings }
+// import com.typesafe.sbt.osgi.SbtOsgi.{ OsgiKeys, osgiSettings, defaultOsgiSettings }
+import com.typesafe.sbt.osgi.SbtOsgi
+import SbtOsgi._
 
 object BuildSettings {
 
@@ -36,14 +38,6 @@ object BuildSettings {
       "-language:_",
       "-Xlog-reflective-calls"
     )
-  )
-
-/** OSGI SETTINGS *****************************************************************************************************/
-  val commonExport = Seq("reactant*")
-
-  lazy val osgiSettings = defaultOsgiSettings ++ Seq(
-    OsgiKeys.exportPackage := commonExport,
-    OsgiKeys.privatePackage := Nil
   )
 
 /** PUBLISH SETTINGS **************************************************************************************************/
@@ -92,4 +86,21 @@ object BuildSettings {
     parallelExecution in Test := false,
     parallelExecution in IntegrationTest := false
   )
+
+/** OSGI SETTINGS *****************************************************************************************************/
+  val commonExport = Seq("reactant*")
+
+  lazy val osgiSettings = defaultOsgiSettings ++ Seq(
+    OsgiKeys.exportPackage := commonExport,
+    OsgiKeys.privatePackage := Nil
+  )
+
+  // def osgiSettings(exports: Seq[String], imports: Seq[String] = Seq.empty) = SbtOsgi.osgiSettings ++ Seq(
+  //   OsgiKeys.exportPackage := exports map { pkg => pkg + ".*;version=\"${Bundle-Version}\"" },
+  //   OsgiKeys.importPackage <<= scalaVersion { sv => Seq("""scala.*;version="$<range;[==,=+);%s>"""".format(sv)) },
+  //   OsgiKeys.importPackage ++= imports,
+  //   OsgiKeys.importPackage += """akka.*;version="$<range;[==,=+);$<@>>"""",
+  //   OsgiKeys.importPackage += "*",
+  //   OsgiKeys.additionalHeaders := Map("-removeheaders" -> "Include-Resource,Private-Package")
+  // )
 }

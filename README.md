@@ -1,4 +1,4 @@
-## reactive-casbah-akka-persistence-mongo
+## reactive-casbah
 
 [![Build Status](https://travis-ci.org/reactant/reactant-casbah.png)](https://travis-ci.org/reactant/reactant-casbah)
 
