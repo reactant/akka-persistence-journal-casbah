@@ -1,7 +1,7 @@
 /**
  *  Copyright (C) 2013-2014 Duncan DeVore. <http://reactant.org>
  */
-package reactant
+package memo
 
 import sbt._
 import Keys._
@@ -88,19 +88,19 @@ object BuildSettings {
   )
 
 /** OSGI SETTINGS *****************************************************************************************************/
-  val commonExport = Seq("reactant*")
+  // val commonExport = Seq("reactant*")
 
-  lazy val osgiSettings = defaultOsgiSettings ++ Seq(
-    OsgiKeys.exportPackage := commonExport,
-    OsgiKeys.privatePackage := Nil
-  )
-
-  // def osgiSettings(exports: Seq[String], imports: Seq[String] = Seq.empty) = SbtOsgi.osgiSettings ++ Seq(
-  //   OsgiKeys.exportPackage := exports map { pkg => pkg + ".*;version=\"${Bundle-Version}\"" },
-  //   OsgiKeys.importPackage <<= scalaVersion { sv => Seq("""scala.*;version="$<range;[==,=+);%s>"""".format(sv)) },
-  //   OsgiKeys.importPackage ++= imports,
-  //   OsgiKeys.importPackage += """akka.*;version="$<range;[==,=+);$<@>>"""",
-  //   OsgiKeys.importPackage += "*",
-  //   OsgiKeys.additionalHeaders := Map("-removeheaders" -> "Include-Resource,Private-Package")
+  // lazy val osgiSettings = defaultOsgiSettings ++ Seq(
+  //   OsgiKeys.exportPackage := commonExport,
+  //   OsgiKeys.privatePackage := Nil
   // )
+
+  def osgiSettings(exports: Seq[String], imports: Seq[String] = Seq.empty) = SbtOsgi.osgiSettings ++ Seq(
+    OsgiKeys.exportPackage := exports map { pkg => pkg + ".*;version=\"${Bundle-Version}\"" },
+    OsgiKeys.importPackage <<= scalaVersion { sv => Seq("""scala.*;version="$<range;[==,=+);%s>"""".format(sv)) },
+    OsgiKeys.importPackage ++= imports,
+    OsgiKeys.importPackage += """akka.*;version="$<range;[==,=+);$<@>>"""",
+    OsgiKeys.importPackage += "*",
+    OsgiKeys.additionalHeaders := Map("-removeheaders" -> "Include-Resource,Private-Package")
+  )
 }

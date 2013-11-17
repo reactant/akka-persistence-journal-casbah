@@ -1,7 +1,7 @@
 /**
  *  Copyright (C) 2013-2014 Duncan DeVore. <http://reactant.org>
  */
-package reactant.journal.casbah
+package org.reactant.memo.mongo.journal.casbah
 
 import akka.persistence._
 import akka.persistence.journal.SyncWriteJournal
