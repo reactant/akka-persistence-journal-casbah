@@ -8,7 +8,8 @@ import akka.persistence.journal.AsyncReplay
 
 import scala.concurrent.Future
 
-private[reactant] trait CasbahReplay extends AsyncReplay { this: CasbahJournal ⇒
+// private[reactant] trait CasbahReplay extends AsyncReplay { this: CasbahJournal ⇒
+trait CasbahReplay extends AsyncReplay { this: CasbahJournal ⇒
 
   private val replayDispatcherId = context.system.settings.config.getString("casbah-journal.replay-dispatcher")
   private val replayDispatcher = context.system.dispatchers.lookup(replayDispatcherId)

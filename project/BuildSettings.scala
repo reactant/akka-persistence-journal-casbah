@@ -28,6 +28,7 @@ object BuildSettings {
     licenses                := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt")),
     scalaVersion            := "2.10.3",
     resolvers               ++= Dependencies.repos,
+    shellPrompt             := ShellPrompt.buildShellPrompt,
     scalacOptions           := Seq(
       "-encoding",
       "utf8",
@@ -39,6 +40,15 @@ object BuildSettings {
       "-Xlog-reflective-calls"
     )
   )
+
+/** MODULE SETTINGS ***************************************************************************************************/
+  lazy val moduleSettings =
+    basicSettings ++
+    formatSettings ++
+    Seq((scalacOptions in doc) <<= (name, version).map { (n, v) => Seq("-doc-title", n + " " + v) })
+    // formatSettings ++
+    // Unidoc.settings ++
+    // Seq(autoAPIMappings := true, scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-diagrams"))
 
 /** PUBLISH SETTINGS **************************************************************************************************/
   val nexus = "" //"http://repo.eligotech.com/nexus/content/repositories/" DO NOT UNCOMMENT THIS
@@ -81,6 +91,26 @@ object BuildSettings {
     .setPreference(SpaceInsideBrackets, false)
     .setPreference(SpacesWithinPatternBinders, true)
 
+/** SHELL PROMPT SETTINGS *********************************************************************************************/
+// Shell prompt which show the current project, git branch and build version
+object ShellPrompt {
+  object devnull extends ProcessLogger {
+    def info (s: => String) {}
+    def error (s: => String) { }
+    def buffer[T] (f: => T): T = f
+  }
+  def currBranch = (
+    ("git status -sb" lines_! devnull headOption)
+      getOrElse "-" stripPrefix "## "
+  )
+
+  val buildShellPrompt = {
+    (state: State) => {
+      val currProject = Project.extract (state).currentProject.id
+      "%s:%s:%s> ".format (currProject, currBranch, BuildSettings.Version)
+    }
+  }
+}
 /** TEST SETTINGS *****************************************************************************************************/
   lazy val testSettings = Seq(
     parallelExecution in Test := false,
